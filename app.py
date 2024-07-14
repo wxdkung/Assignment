@@ -27,7 +27,7 @@ def create_account():
         cursor.execute('INSERT INTO accounts (account_number, username, balance) VALUES (%s, %s, %s)', (account_number, username, balance))
         mysql.connection.commit()
         cursor.close()
-        flash('Account created successfully!')
+        flash('Account created successfully!', 'success')
         return redirect(url_for('index'))
     return render_template('create_account.html')
 
@@ -41,7 +41,7 @@ def view_balance():
         cursor.close()
         if account:
             return render_template('view_balance.html', account=account)
-        flash('Account not found')
+        flash('Account not found', 'danger')
     return render_template('view_balance.html')
 
 @app.route('/deposit', methods=['GET', 'POST'])
@@ -53,7 +53,7 @@ def deposit():
         cursor.execute('UPDATE accounts SET balance = balance + %s WHERE account_number = %s', (amount, account_number))
         mysql.connection.commit()
         cursor.close()
-        flash('Deposit successful!')
+        flash('Deposit successful!', 'success')
         return redirect(url_for('index'))
     return render_template('deposit.html')
 
@@ -68,9 +68,9 @@ def withdraw():
         if account and account['balance'] >= amount:
             cursor.execute('UPDATE accounts SET balance = balance - %s WHERE account_number = %s', (amount, account_number))
             mysql.connection.commit()
-            flash('Withdrawal successful!')
+            flash('Withdrawal successful!', 'success')
         else:
-            flash('Insufficient funds or account not found')
+            flash('Insufficient funds or account not found', 'danger')
         cursor.close()
         return redirect(url_for('index'))
     return render_template('withdraw.html')
@@ -83,7 +83,7 @@ def delete_account():
         cursor.execute('DELETE FROM accounts WHERE account_number = %s', [account_number])
         mysql.connection.commit()
         cursor.close()
-        flash('Account deleted successfully!')
+        flash('Account deleted successfully!', 'success')
         return redirect(url_for('index'))
     return render_template('delete_account.html')
 

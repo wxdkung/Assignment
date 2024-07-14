@@ -1,31 +1,20 @@
-<!doctype html>
-<html>
-<head>
-    <title>View Balance</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-5">View Balance</h1>
-        {% if account %}
-            <div class="alert alert-info mt-3">
-                <p>Account Number: {{ account['account_number'] }}</p>
-                <p>Username: {{ account['username'] }}</p>
-                <p>Balance: {{ account['balance'] }}</p>
-            </div>
-        {% else %}
-            <form method="post" class="mt-3">
-                <div class="form-group">
-                    <label for="account_number">Account Number:</label>
-                    <input type="text" name="account_number" class="form-control" id="account_number" required>
-                </div>
-                <button type="submit" class="btn btn-primary">View Balance</button>
-            </form>
-        {% endif %}
-        <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back</a>
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mt-5">View Balance</h1>
+{% if account %}
+    <div class="alert alert-info mt-3">
+        <p>Account Number: {{ account['account_number'] }}</p>
+        <p>Username: {{ account['username'] }}</p>
+        <p>Balance: {{ account['balance'] }}</p>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% else %}
+    <form method="post" class="mt-3">
+        <div class="form-group">
+            <label for="account_number">Account Number:</label>
+            <input type="text" name="account_number" class="form-control" id="account_number" required>
+        </div>
+        <button type="submit" class="btn btn-primary">View Balance</button>
+    </form>
+{% endif %}
+<a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back</a>
+{% endblock %}
