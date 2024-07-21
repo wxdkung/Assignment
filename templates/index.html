@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="mt-5">Welcome to the ATM</h1>
-<ul class="list-group mt-3">
-    <li class="list-group-item"><a href="{{ url_for('create_account') }}">Create Account</a></li>
-    <li class="list-group-item"><a href="{{ url_for('view_balance') }}">View Balance</a></li>
-    <li class="list-group-item"><a href="{{ url_for('deposit') }}">Deposit</a></li>
-    <li class="list-group-item"><a href="{{ url_for('withdraw') }}">Withdraw</a></li>
-    <li class="list-group-item"><a href="{{ url_for('delete_account') }}">Delete Account</a></li>
-</ul>
+<div class="jumbotron text-center bg-primary text-white">
+    <h1 class="display-4">Welcome to the ATM Application</h1>
+    <p class="lead">This is a simple ATM application built with Flask and MySQL.</p>
+    <hr class="my-4">
+    <p>Use the navigation bar to manage your accounts.</p>
+</div>
 {% endblock %}
