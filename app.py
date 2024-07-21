@@ -28,13 +28,21 @@ def create_account():
         account_number = request.form['account_number']
         username = request.form['username']
         balance = float(request.form['balance'])
-        cursor = mysql.connection.cursor()
-        cursor.execute('INSERT INTO accounts (account_number, username, balance) VALUES (%s, %s, %s)', (account_number, username, balance))
-        mysql.connection.commit()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE account_number = %s', [account_number])
+        account = cursor.fetchone()
+
+        if account:
+            flash('Account number already exists!', 'danger')
+        else:
+            cursor.execute('INSERT INTO accounts (account_number, username, balance) VALUES (%s, %s, %s)', (account_number, username, balance))
+            mysql.connection.commit()
+            flash('Account created successfully!', 'success')
         cursor.close()
-        flash('Account created successfully!', 'success')
         return redirect(url_for('index'))
     return render_template('create_account.html')
+
 
 @app.route('/view_balance', methods=['GET', 'POST'])
 def view_balance():
@@ -67,18 +75,27 @@ def withdraw():
     if request.method == 'POST':
         account_number = request.form['account_number']
         amount = float(request.form['amount'])
+        
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT balance FROM accounts WHERE account_number = %s', [account_number])
         account = cursor.fetchone()
-        if account and account['balance'] >= amount:
-            cursor.execute('UPDATE accounts SET balance = balance - %s WHERE account_number = %s', (amount, account_number))
-            mysql.connection.commit()
-            flash('Withdrawal successful!', 'success')
+
+        if account:
+            if amount <= 0:
+                flash('Withdrawal amount must be positive', 'danger')
+            elif account['balance'] < amount:
+                flash('Insufficient funds', 'danger')
+            else:
+                cursor.execute('UPDATE accounts SET balance = balance - %s WHERE account_number = %s', (amount, account_number))
+                mysql.connection.commit()
+                flash('Withdrawal successful!', 'success')
         else:
-            flash('Insufficient funds or account not found', 'danger')
+            flash('Account not found', 'danger')
+        
         cursor.close()
         return redirect(url_for('index'))
     return render_template('withdraw.html')
+
 
 @app.route('/delete_account', methods=['GET', 'POST'])
 def delete_account():
