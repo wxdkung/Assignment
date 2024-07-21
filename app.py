@@ -1,3 +1,8 @@
+# สมาชิกในกลุ่ม 1.ภูริวัฒน์ พันธ์ฉลาด
+# สมาชิกในกลุ่ม 2.ธีรภัทร กาญจนานิจ
+# สมาชิกในกลุ่ม 3.สรศักดิ์ พาที 
+# สมาชิกในกลุ่ม 4.ชญานนท์ ดิษฐถาพร
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
