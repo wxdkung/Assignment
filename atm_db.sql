@@ -3,7 +3,8 @@ CREATE DATABASE atm_db;
    USE atm_db;
 
    CREATE TABLE accounts (
-       account_number VARCHAR(20) PRIMARY KEY,
-       username VARCHAR(50),
-       balance FLOAT
-   );
+    account_number VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(255) NOT NULL,
+    balance FLOAT NOT NULL,
+    PRIMARY KEY (account_number)
+);
